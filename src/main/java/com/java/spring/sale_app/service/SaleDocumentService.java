@@ -55,4 +55,9 @@ public class SaleDocumentService {
         saleDocumentRepository.deleteById(id);
     }
 
+    public List<SaleDocument> findSaleDocumentByLibrary(String library) {
+        List<SaleDocument> saleDocuments = saleDocumentRepository.findByLibraryName(library);
+        return saleDocuments;
+
+    }
 }

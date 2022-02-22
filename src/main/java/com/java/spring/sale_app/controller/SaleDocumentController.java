@@ -35,6 +35,12 @@ public class SaleDocumentController {
         return saleDocumentService.findOne(id);
     }
 
+
+    @GetMapping("/library/{library}")
+    public List<SaleDocument> getSaleDocumentByLibrary(@PathVariable("library") String library) {
+        return saleDocumentService.findSaleDocumentByLibrary(library);
+    }
+
   /*  @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateSaleDocumentById(@PathVariable("id") ObjectId  id,  @RequestBody SaleDocument saleDocument) {
         saleDocument.setId(id.toString());

@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:4.4
+    container_name: sale_app
+    hostname: localhost
+    restart: unless-stopped
+    ports:
+      - 27010:27010
+
+    networks:
+      - main-network
+    command: ["--bind_ip", "0.0.0.0"]
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: sale_app
+    container_name: sale-app
+    restart: on-failure
+    depends_on:
+      - mongo
+    ports:
+      - 8102:8102
+    environment:
+      - SERVER_PORT=8000
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_APPLICATION_NAME=$APP_NAME
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=true
+      - SPRING_DATA_MONGODB_HOST=localhost
+      - SPRING_DATA_MONGODB_PORT=27010
+      - SPRING_DATA_MONGODB_DATABASE=sale-app
+    networks:
+      - main-network
+
+networks:
+  main-network:
+    external:
+      name: salenetwork
